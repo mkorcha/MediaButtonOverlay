@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Media Button Overlay</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="players">
+        <item>Google Play</item>
+        <item>Spotify</item>
+        <item>Default Music Player</item>
+    </string-array>
+
+    <string-array name="location">
+        <item>Left</item>
+        <item>Right</item>
+    </string-array>
+
+</resources>

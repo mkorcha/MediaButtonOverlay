@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mikekorcha.mediabuttonoverlay">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:debuggable="false">
+
+        <activity
+            android:name="com.mikekorcha.mediabuttonoverlay.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.mikekorcha.mediabuttonoverlay.OverlayService"
+            android:label="Media Controls Overlay">
+        </service>
+
+        <receiver
+            android:name="com.mikekorcha.mediabuttonoverlay.OverlayService$Receiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.mikekorcha.mediabuttonoverlay.REFRESH" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
