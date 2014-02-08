@@ -3,6 +3,8 @@ MediaButtonOverlay
 
 An Android application that provides a persisting overlay of media buttons for quick access to changing music.
 
+App can be found on [Google Play](https://play.google.com/store/apps/details?id=com.mikekorcha.mediabuttonoverlay)
+
 Notes
 -----
 
@@ -15,6 +17,7 @@ Credit
 
 * SeekBar preference: [robobunny](http://robobunny.com/wp/2013/08/24/android-seekbar-preference-v2/)
 * Colored theme stuff: [android-holo-colors](http://android-holo-colors.com/)
+* Icons: [iconmonstr](http://iconmonstr.com/)
 
 License
 -------
