@@ -52,6 +52,8 @@ public class OverlayService extends Service {
 
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        this.prefs.edit().putBoolean("started", true).commit();
+
         this.wm.addView(this.mcv, this.params);
 
         this.Refresh();

@@ -8,7 +8,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,20 +18,20 @@ import com.mikekorcha.mediabuttonoverlay.util.Purchase;
 import com.robobunny.SeekBarPreference;
 
 public class MainActivity extends PreferenceActivity {
-    private MainActivity        parent = this;
+    protected MainActivity        parent = this;
 
-    private ListPreference      player;
-    private ListPreference      location;
+    protected ListPreference      player;
+    private   ListPreference      location;
 
-    private SeekBarPreference   opacity;
+    private   SeekBarPreference   opacity;
 
-    private Preference          start;
-    private Preference          rate;
-    private Preference          donate;
+    private   Preference          start;
+    private   Preference          rate;
+    private   Preference          donate;
 
-    private SharedPreferences   prefs;
+    public    SharedPreferences   prefs;
 
-    private IabHelper           iab;
+    private   IabHelper           iab;
 
     private IabHelper.OnIabPurchaseFinishedListener  finished = new IabHelper.OnIabPurchaseFinishedListener() {
         @Override
@@ -136,8 +135,6 @@ public class MainActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 parent.startService(new Intent(parent.getApplicationContext(), OverlayService.class));
-
-                parent.prefs.edit().putBoolean("started", true).commit();
 
                 return false;
             }

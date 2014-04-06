@@ -35,6 +35,5 @@ local.properties
 /mediabuttonoverlay/src/main/res/values/sensitive.xml
 AndroidKey.jks
 
-
 # Silly Mac OS X
 .DS_Store

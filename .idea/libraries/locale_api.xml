@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="locale-api">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/mediabuttonoverlay/build/exploded-aar/com.twofortyfouram/locale-api/1.0/res" />
+      <root url="jar://$PROJECT_DIR$/mediabuttonoverlay/build/exploded-aar/com.twofortyfouram/locale-api/1.0/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -4,7 +4,13 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="Z:\Windows\My Documents\Projects\MediaButtonOverlay" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="Z:\Windows\My Documents\Projects\MediaButtonOverlay" />
+            <option value="Z:\Windows\My Documents\Projects\MediaButtonOverlay\mediabuttonoverlay" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

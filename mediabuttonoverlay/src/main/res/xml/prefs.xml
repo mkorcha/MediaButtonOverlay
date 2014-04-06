@@ -43,4 +43,11 @@
             android:key="donate" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Information">
+        <Preference
+            android:title="Latest update!"
+            android:summary="Tasker/Locale support has been added! Updated skin coming soon!"
+            android:key="rate" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
