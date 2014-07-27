@@ -7,7 +7,12 @@ App can be found on [Google Play](https://play.google.com/store/apps/details?id=
 
 Latest Update
 -------------
-Tasker/Locale support has been added. Once the app is installed, go into Tasker and in the profile you want to launch the overlay from, click the "Add" button and then "Plugin". The configuration will be identical to the main starting screen. 
+Haptic feedback and brightening button options have been added:
+
+* Haptic feedback: when you tap a button, a smalll vibration will occur in response
+
+* Brightening buttons: when you tap a button, it will brighten briefly in response
+
 
 Notes
 -----

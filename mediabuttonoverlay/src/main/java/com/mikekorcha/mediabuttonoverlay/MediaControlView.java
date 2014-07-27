@@ -1,21 +1,27 @@
 package com.mikekorcha.mediabuttonoverlay;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MediaControlView extends LinearLayout {
 
     private LinearLayout layout;
 
-    private ImageView    prev;
-    private ImageView    pp;
-    private ImageView    next;
-    private ImageView    close;
+    protected ImageView prev;
+    protected ImageView pp;
+    protected ImageView next;
+    protected ImageView close;
 
     public MediaControlView(Context context) {
         super(context);
@@ -24,9 +30,9 @@ public class MediaControlView extends LinearLayout {
 
         this.layout = (LinearLayout) view.findViewById(R.id.layout);
 
-        this.prev  = (ImageView) view.findViewById(R.id.prev);
-        this.pp    = (ImageView) view.findViewById(R.id.pp);
-        this.next  = (ImageView) view.findViewById(R.id.next);
+        this.prev = (ImageView) view.findViewById(R.id.prev);
+        this.pp = (ImageView) view.findViewById(R.id.pp);
+        this.next = (ImageView) view.findViewById(R.id.next);
         this.close = (ImageView) view.findViewById(R.id.close);
 
         this.addView(view);
@@ -38,5 +44,4 @@ public class MediaControlView extends LinearLayout {
         this.next.setAlpha(opacity);
         this.close.setAlpha(opacity);
     }
-
 }

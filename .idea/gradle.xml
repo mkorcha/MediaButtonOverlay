@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="Z:\Windows\My Documents\Projects\MediaButtonOverlay" />
-            <option value="Z:\Windows\My Documents\Projects\MediaButtonOverlay\mediabuttonoverlay" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/mediabuttonoverlay" />
           </set>
         </option>
       </GradleProjectSettings>

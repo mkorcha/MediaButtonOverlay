@@ -24,6 +24,14 @@
             android:max="100"
             robobunny:min="1"
             robobunny:unitsRight="%" />
+
+        <CheckBoxPreference
+            android:title="Enable haptic feedback"
+            android:key="vibrate"/>
+
+        <CheckBoxPreference
+            android:title="Brighten selections"
+            android:key="lighten"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Toggle">
@@ -46,8 +54,11 @@
     <PreferenceCategory android:title="Information">
         <Preference
             android:title="Latest update!"
-            android:summary="Tasker/Locale support has been added! Updated skin coming soon!"
-            android:key="rate" />
+            android:summary="Haptic feedback and buttons that brighten on selection!" />
+
+        <Preference
+            android:title="News!"
+            android:summary="Stay tuned, as a rewrite is in progress (with new icons this time, I promise!) which should add some more QoL updates and to make the IDE linter be quiet." />
     </PreferenceCategory>
 
 </PreferenceScreen>

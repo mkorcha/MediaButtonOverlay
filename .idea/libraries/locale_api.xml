@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="locale-api">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/mediabuttonoverlay/build/exploded-aar/com.twofortyfouram/locale-api/1.0/res" />
-      <root url="jar://$PROJECT_DIR$/mediabuttonoverlay/build/exploded-aar/com.twofortyfouram/locale-api/1.0/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mediabuttonoverlay/build/intermediates/exploded-aar/com.twofortyfouram/locale-api/1.0/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/mediabuttonoverlay/build/intermediates/exploded-aar/com.twofortyfouram/locale-api/1.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

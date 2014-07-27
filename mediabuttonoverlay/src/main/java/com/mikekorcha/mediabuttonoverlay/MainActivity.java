@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.mikekorcha.mediabuttonoverlay.util.IabHelper;
@@ -28,6 +29,7 @@ public class MainActivity extends PreferenceActivity {
     private   Preference          start;
     private   Preference          rate;
     private   Preference          donate;
+    private   Preference          preventsleep;
 
     public    SharedPreferences   prefs;
 
@@ -74,6 +76,8 @@ public class MainActivity extends PreferenceActivity {
         this.start     = (Preference)        this.findPreference("start");
         this.rate      = (Preference)        this.findPreference("rate");
         this.donate    = (Preference)        this.findPreference("donate");
+
+        this.preventsleep = (Preference) this.findPreference("preventsleep");
 
         this.prefs     = PreferenceManager.getDefaultSharedPreferences(this);
 

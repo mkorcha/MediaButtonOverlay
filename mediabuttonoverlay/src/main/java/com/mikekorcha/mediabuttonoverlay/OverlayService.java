@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.DragEvent;
@@ -17,8 +18,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OverlayService extends Service {
     private static OverlayService      parent;
@@ -28,6 +33,8 @@ public class OverlayService extends Service {
 
     private SharedPreferences          prefs;
 
+    private Vibrator vibe;
+
     private WindowManager.LayoutParams params = new WindowManager.LayoutParams(
         WindowManager.LayoutParams.WRAP_CONTENT,
         WindowManager.LayoutParams.WRAP_CONTENT,
@@ -35,6 +42,8 @@ public class OverlayService extends Service {
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
         PixelFormat.TRANSLUCENT
     );
+
+    public static Window win;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,6 +60,8 @@ public class OverlayService extends Service {
         this.mcv  = new MediaControlView(this);
 
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        this.vibe = (Vibrator) this.getBaseContext().getSystemService(Context.VIBRATOR_SERVICE); //this.mcv.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         this.prefs.edit().putBoolean("started", true).commit();
 
@@ -97,6 +108,9 @@ public class OverlayService extends Service {
     }
 
     public void OnPrevClick(View v) {
+        this.softVibrate();
+        this.flash(this.mcv.prev);
+
         Intent i = new Intent();
 
         if(this.prefs.getString("player", null).equals("Google Play")) {
@@ -122,6 +136,9 @@ public class OverlayService extends Service {
     }
 
     public void OnPPClick(View v) {
+        this.softVibrate();
+        this.flash(this.mcv.pp);
+
         Intent i = new Intent();
 
         if(this.prefs.getString("player", null).equals("Google Play")) {
@@ -146,6 +163,9 @@ public class OverlayService extends Service {
     }
 
     public void OnNextClick(View v) {
+        this.softVibrate();
+        this.flash(this.mcv.next);
+
         Intent i = new Intent();
 
         if(this.prefs.getString("player", null).equals("Google Play")) {
@@ -171,9 +191,36 @@ public class OverlayService extends Service {
     }
 
     public void OnCloseClick(View v) {
+        this.softVibrate();
+
         this.prefs.edit().putBoolean("started", false).commit();
 
         this.stopSelf();
     }
 
+    private void softVibrate() {
+        if(this.vibe.hasVibrator() && this.prefs.getBoolean("vibrate", false)) {
+            this.vibe.vibrate(50);
+        }
+    }
+
+    public void flash(View v) {
+        if(this.prefs.getBoolean("lighten", false)) {
+            v.setAlpha((float) 1.0);
+        }
+
+        Timer t = new Timer();
+        t.schedule(new EndFlash(), 200);
+
+    }
+
+    class EndFlash extends TimerTask {
+
+        @Override
+        public void run() {
+            Intent i = new Intent();
+            i.setAction("com.mikekorcha.mediabuttonoverlay.REFRESH");
+            parent.sendOrderedBroadcast(i, null);
+        }
+    }
 }
