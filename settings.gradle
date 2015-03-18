@@ -1,1 +1,3 @@
-include ':mediabuttonoverlay'
+include ':app'
+include ':sliderPreference'
+include ':colorPickerPreference'

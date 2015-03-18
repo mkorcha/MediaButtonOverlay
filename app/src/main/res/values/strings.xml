@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Media Button Overlay</string>
+    <string name="service_name">Media Button Overlay Service</string>
+
+    <string name="action_rate">Rate this App</string>
+    <string name="action_github">View on GitHub</string>
+    <string name="action_about">About Media Button Overlay</string>
+
+    <string name="pref_player">Media Player</string>
+    <string name="pref_startapp">Start Player with Overlay</string>
+    <string name="pref_colour">Colour</string>
+    <string name="pref_style">Skin</string>
+    <string name="pref_opacity">Opacity</string>
+    <string name="pref_vibrate">Haptic Feedback</string>
+
+    <string name="about">
+        This app was created to provide an easy way to change your music as you\'re doing other things, without having to fumble through your apps to find your music player.\n
+        \n
+        Copyright © 2013-2015 Mike Korcha.\n
+        \n
+        Credit to:\n
+        • Jay Weisskopf for SliderPreference\n
+        • Sergey Margaritov for ColorPickerPreference\n
+        • Base for Floating Action Button\n
+        • wada811 for Material Colors XML\n
+        • Iconmonstr for icons\n
+        • StackOverflow and Room 15
+    </string>
+
+</resources>

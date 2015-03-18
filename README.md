@@ -5,32 +5,44 @@ An Android application that provides a persisting overlay of media buttons for q
 
 App can be found on [Google Play](https://play.google.com/store/apps/details?id=com.mikekorcha.mediabuttonoverlay)
 
-Latest Update
--------------
-Haptic feedback and brightening button options have been added:
-
-* Haptic feedback: when you tap a button, a smalll vibration will occur in response
-
-* Brightening buttons: when you tap a button, it will brighten briefly in response
-
+Copyright © Mike Korcha 2013-2015
 
 Notes
 -----
 
 Project built in Android Studio. You should just be able to open the project from there. 
 
-Omitted is an XML file in res/values called sensitive.xml. This is for the In-App Billing part, which handles a donation. It contains two strings: license\_key and donation\_sku. These should be relatively straightforward to add.
+Contributing
+------------
 
-Credit
-------
+The latest release has made it significantly easier to add a player or a skin.
 
-* SeekBar preference: [robobunny](http://robobunny.com/wp/2013/08/24/android-seekbar-preference-v2/)
-* Colored theme stuff: [android-holo-colors](http://android-holo-colors.com/)
-* Icons: [iconmonstr](http://iconmonstr.com/)
-* Base Tasker stuff: [Tasker](http://tasker.dinglisch.net/developers.html)
-* Locale API: [Base](http://www.twofortyfouram.com/developer.html), [Android Studio Build](https://github.com/mkorcha/AndroidStudio-LocaleAPI)
+### Player
+
+Extend the `MediaPlayer` class, included in the base directory, and put it in the `players` package. Then, just add the name of the player to `players_strings` and the class name to `players_classes` in the `players.xml` value file.
+
+To allow for the button to change properly with play status, when calling the parent constructor, pass the needed `BroadcastReceiver` and `IntentFilter`.
+
+To allow the player to start with the overlay, make sure to set `playerPackage` to the package ID of the player you want to start.
+
+### Skin
+ 
+Create an XML layout file. Make sure the buttons have the ID of `btnPrevious`, `btnPlayPause`, and `btnNext`, for those you want to implement. Then, add the skin name to `skins_names` and the layout resource name to `skins_resources` in the `skins.xml` value file.
+
+To allow the orientation of the layout to change (assuming a `LinearLayout`), make sure the enclosing layout has the ID `buttonLayout`.
+
+To allow the element to be recoloured, make sure the element is tagged "recolourable". If any additional processing needs to be done for your recolour, look at `MediaOverlayView.java` in the `setColour()` method.
 
 License
 -------
 
-Code written specifically for this app is released under the LGPL 2.1 license. SeekBar preference was released into public domain. Locale's API was released under the Apache 2.0 license. 
+LGPL 2.1. All libraries are licensed as stated by their authors.
+
+Credit
+------
+
+* [SliderPreference](https://github.com/jayschwa/AndroidSliderPreference)
+* [ColorPickerPreference](https://github.com/attenzione/android-ColorPickerPreference)
+* [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+* [Material Design Colors](https://github.com/wada811/Android-Material-Design-Colors)
+* [Icons](http://iconmonstr.com/)

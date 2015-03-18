@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <color name="primary">@color/md_deep_purple_700</color>
+    <color name="primaryDark">@color/md_deep_purple_900</color>
+    <color name="accent">@color/md_red_a700</color>
+    <color name="accentLight">@color/md_red_a400</color>
+
+</resources>

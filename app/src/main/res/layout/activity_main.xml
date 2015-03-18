@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/content" />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_width"
+        app:fab_icon="@drawable/ic_start"
+        app:fab_colorNormal="@color/accent"
+        app:fab_colorPressed="@color/accentLight"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:id="@+id/btnStart"
+        android:layout_alignParentTop="false"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+
+</RelativeLayout>

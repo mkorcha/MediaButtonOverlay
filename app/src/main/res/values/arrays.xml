@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Preferences regarding the orientation of the buttons -->
+    <string-array name="orientation_entries">
+        <item>Vertical</item>
+        <item>Horizontal</item>
+    </string-array>
+
+    <string-array name="orientation_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+</resources>

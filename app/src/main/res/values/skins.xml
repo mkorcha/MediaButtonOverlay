@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="skins_names">
+        <item>Media Button Overlay Classic</item>
+        <item>Android Material</item>
+    </string-array>
+
+    <string-array name="skins_resources">
+        <item>skin_classic</item>
+        <item>skin_material</item>
+    </string-array>
+
+</resources>

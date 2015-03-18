@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:id="@+id/buttonLayout">
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnPrevious"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_width"
+        android:tag="recolourable"
+        app:fab_icon="@drawable/ic_previous"
+        app:fab_colorNormal="@color/primary"
+        app:fab_colorPressed="@color/primaryDark" />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnPlayPause"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_width"
+        android:tag="recolourable"
+        app:fab_icon="@drawable/ic_playpause"
+        app:fab_colorNormal="@color/primary"
+        app:fab_colorPressed="@color/primaryDark" />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnNext"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_width"
+        android:tag="recolourable"
+        app:fab_icon="@drawable/ic_next"
+        app:fab_colorNormal="@color/primary"
+        app:fab_colorPressed="@color/primaryDark" />
+
+</LinearLayout>

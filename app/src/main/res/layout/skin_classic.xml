@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="false"
+    android:clickable="false"
+    android:padding="10dp"
+    android:id="@+id/buttonLayout"
+    android:background="@drawable/skin_classic_background">
+
+    <ImageView
+        android:id="@+id/btnPrevious"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_previous" />
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <ImageView
+        android:id="@+id/btnPlayPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_playpause" />
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <ImageView
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_next" />
+
+</LinearLayout>

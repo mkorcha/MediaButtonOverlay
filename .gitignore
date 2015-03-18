@@ -1,40 +1,22 @@
-# built application files
+# Completed application files
 *.apk
 *.ap_
 
-# files for the dex VM
+# Compiled/dexed Java files
 *.dex
-
-# Java class files
 *.class
 
-# generated files
-bin/
-gen/
-build/
+# Other build files
+/build
 
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Eclipse project files
-.classpath
-.project
-
-# Android Studio
-.idea/workspace.xml
-.idea/tasks.xml
+# Gradle stuff
 .gradle
-/*/local.properties
-/*/out
-/*/*/build
-/*/*/production
-*.iws
-*~
-*.swp
 
-# Sensitive sources
-/mediabuttonoverlay/src/main/res/values/sensitive.xml
-AndroidKey.jks
+# IDE files
+/local.properties
+/.idea/
 
-# Silly Mac OS X
+# OS specific files
 .DS_Store
+Thumbs.db
+.Trashes

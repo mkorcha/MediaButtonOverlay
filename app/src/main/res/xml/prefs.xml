@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Basic">
+
+        <ListPreference
+            android:key="player"
+            android:title="@string/pref_player"
+            android:entries="@array/players_strings"
+            android:entryValues="@array/players_classes"
+            android:defaultValue="PlayMusic" />
+
+        <CheckBoxPreference
+            android:title="@string/pref_startapp"
+            android:key="startapp"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Display">
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="colour"
+            android:title="@string/pref_colour"
+            android:defaultValue="@color/primary"
+            alphaSlider="false" />
+
+        <ListPreference
+            android:key="skin"
+            android:title="@string/pref_style"
+            android:entries="@array/skins_names"
+            android:entryValues="@array/skins_resources"
+            android:defaultValue="skin_material" />
+
+        <net.jayschwa.android.preference.SliderPreference
+            android:key="opacity"
+            android:title="@string/pref_opacity"
+            android:defaultValue="0.5" />
+
+        <ListPreference
+            android:key="orientation"
+            android:title="Orientation"
+            android:entries="@array/orientation_entries"
+            android:entryValues="@array/orientation_values"
+            android:defaultValue="0" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Interaction">
+
+        <CheckBoxPreference
+            android:title="@string/pref_vibrate"
+            android:key="vibrate"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

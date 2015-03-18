@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="players_strings">
+        <item>Play Music</item>
+        <item>Spotify</item>
+        <item>Default Fallback</item>
+    </string-array>
+
+    <string-array name="players_classes">
+        <item>PlayMusic</item>
+        <item>Spotify</item>
+        <item>Default</item>
+    </string-array>
+
+</resources>

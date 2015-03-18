@@ -1,0 +1,5 @@
+int id slider_preference_layout 0x7f030000
+int id slider_preference_seekbar 0x7f030001
+int layout slider_preference_dialog 0x7f020000
+int[] styleable SliderPreference { 0x010101e9 }
+int styleable SliderPreference_android_summary 0

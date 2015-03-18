@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/action_rate"
+        android:title="@string/action_rate"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_github"
+        android:title="@string/action_github"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_about"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+
+</menu>
