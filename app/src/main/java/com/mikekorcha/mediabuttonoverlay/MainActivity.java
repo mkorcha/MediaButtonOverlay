@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.mikekorcha.mediabuttonoverlay.services.OverlayService;
+import com.mikekorcha.mediabuttonoverlay.views.MediaOverlayView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,11 +28,42 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Fix settings from previous version to work with this version, if needed
+        String player = sharedPrefs.getString("player", "Default");
+
+        if(player.equals("Google Play")) {
+            sharedPrefs.edit().putString("player", "PlayMusic").apply();
+        }
+        else if(player.equals("Default Music Player")) {
+            sharedPrefs.edit().putString("player", "Default").apply();
+        }
+
+        try {
+            // Will fail if it's actually a string, indicating old version, which drops to the catch
+            // which will fix it
+            sharedPrefs.getInt("location", 0);
+        }
+        catch(ClassCastException e) {
+            if(sharedPrefs.getString("location", "Left").equals("Left")) {
+                sharedPrefs.edit().putInt("location", MediaOverlayView.LEFT).apply();
+            }
+            else {
+                sharedPrefs.edit().putInt("location", MediaOverlayView.RIGHT).apply();
+            }
+        }
+
+        try {
+            sharedPrefs.getFloat("opacity", 0.5f);
+        }
+        catch(ClassCastException e) {
+            sharedPrefs.edit().putFloat("opacity", sharedPrefs.getInt("opacity", 0) / 100).apply();
+        }
+
         setContentView(R.layout.activity_main);
 
         that = this;
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
 

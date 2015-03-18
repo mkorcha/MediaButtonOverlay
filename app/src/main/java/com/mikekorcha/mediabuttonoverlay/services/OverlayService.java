@@ -59,37 +59,6 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Fix settings from previous version to work with this version, if needed
-        String player = sharedPrefs.getString("player", "Default");
-
-        if(player.equals("Google Play")) {
-            sharedPrefs.edit().putString("player", "PlayMusic").apply();
-        }
-        else if(player.equals("Default Music Player")) {
-            sharedPrefs.edit().putString("player", "Default").apply();
-        }
-
-        try {
-            // Will fail if it's actually a string, indicating old version, which drops to the catch
-            // which will fix it
-            sharedPrefs.getInt("location", 0);
-        }
-        catch(ClassCastException e) {
-            if(sharedPrefs.getString("location", "Left").equals("Left")) {
-                sharedPrefs.edit().putInt("location", MediaOverlayView.LEFT).apply();
-            }
-            else {
-                sharedPrefs.edit().putInt("location", MediaOverlayView.RIGHT).apply();
-            }
-        }
-
-        try {
-            sharedPrefs.getFloat("opacity", 0.5f);
-        }
-        catch(ClassCastException e) {
-            sharedPrefs.edit().putFloat("opacity", sharedPrefs.getInt("opacity", 0) / 100);
-        }
-
         windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
 
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
