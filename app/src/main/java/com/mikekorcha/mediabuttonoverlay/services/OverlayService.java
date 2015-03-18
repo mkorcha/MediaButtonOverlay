@@ -83,6 +83,13 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
             }
         }
 
+        try {
+            sharedPrefs.getFloat("opacity", 0.5f);
+        }
+        catch(ClassCastException e) {
+            sharedPrefs.edit().putFloat("opacity", sharedPrefs.getInt("opacity", 0) / 100);
+        }
+
         windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
 
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
