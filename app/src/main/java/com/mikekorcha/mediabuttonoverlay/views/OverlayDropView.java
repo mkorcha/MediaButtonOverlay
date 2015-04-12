@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,12 +33,32 @@ public class OverlayDropView extends FrameLayout {
 
         btnClose = (ImageView) findViewById(R.id.btnClose);
         btnClose.setOnDragListener(new CloseDroppable());
+        btnClose.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
+            }
+        });
 
         dropLeft = (ImageView) findViewById(R.id.dropLeft);
         dropRight = (ImageView) findViewById(R.id.dropRight);
 
         dropLeft.setOnDragListener(new SideDroppable(dropLeft, MediaOverlayView.LEFT));
         dropRight.setOnDragListener(new SideDroppable(dropRight, MediaOverlayView.RIGHT));
+
+        dropLeft.setOnTouchListener(new SideTouchable(MediaOverlayView.LEFT));
+        dropRight.setOnTouchListener(new SideTouchable(MediaOverlayView.RIGHT));
+    }
+
+    private int calcY(float eventY) {
+        int height = getContext().getResources().getDisplayMetrics().heightPixels / 2;
+
+        if(eventY > height) {
+            return -((int) -eventY + height);
+        }
+
+        return -(height - (int) eventY);
     }
 
     private class CloseDroppable implements OnDragListener {
@@ -73,6 +95,25 @@ public class OverlayDropView extends FrameLayout {
         }
     }
 
+    private class SideTouchable implements OnTouchListener {
+
+        private int side;
+
+        public SideTouchable(int side) {
+            this.side = side;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            sharedPrefs.edit().putInt("location", side).commit();
+            sharedPrefs.edit().putInt("locY", calcY(event.getY())).commit();
+
+            context.sendBroadcast(new Intent(context.getPackageName() + ".REFRESH"));
+
+            return false;
+        }
+    }
+
     private class SideDroppable implements OnDragListener {
 
         private View view;
@@ -102,16 +143,7 @@ public class OverlayDropView extends FrameLayout {
                 // Shadow gets dropped onto the button
                 case DragEvent.ACTION_DROP:
                     sharedPrefs.edit().putInt("location", side).commit();
-
-                    // LayoutParams is stupid
-                    int height = getContext().getResources().getDisplayMetrics().heightPixels / 2;
-
-                    if(event.getY() > height) {
-                        sharedPrefs.edit().putInt("locY", -((int) -event.getY() + height)).commit();
-                    }
-                    else {
-                        sharedPrefs.edit().putInt("locY", -(height - (int) event.getY())).commit();
-                    }
+                    sharedPrefs.edit().putInt("locY", calcY(event.getY())).commit();
 
                     context.sendBroadcast(new Intent(context.getPackageName() + ".REFRESH"));
 
