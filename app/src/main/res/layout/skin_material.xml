@@ -10,8 +10,8 @@
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnPrevious"
-        android:layout_width="@dimen/fab_width"
-        android:layout_height="@dimen/fab_width"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
         android:tag="recolourable"
         app:fab_icon="@drawable/ic_previous"
         app:fab_colorNormal="@color/primary"
@@ -19,8 +19,8 @@
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnPlayPause"
-        android:layout_width="@dimen/fab_width"
-        android:layout_height="@dimen/fab_width"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
         android:tag="recolourable"
         app:fab_icon="@drawable/ic_playpause"
         app:fab_colorNormal="@color/primary"
@@ -28,8 +28,8 @@
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNext"
-        android:layout_width="@dimen/fab_width"
-        android:layout_height="@dimen/fab_width"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
         android:tag="recolourable"
         app:fab_icon="@drawable/ic_next"
         app:fab_colorNormal="@color/primary"

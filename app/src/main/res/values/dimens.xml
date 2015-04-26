@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Floating Action Button sizes -->
-    <dimen name="fab_width">64dp</dimen>
-
+    <dimen name="fab_size">64dp</dimen>
+    <dimen name="fab_offset_horizontal">16dp</dimen>
+    <dimen name="fab_offset_vertical">32dp</dimen>
 </resources>
