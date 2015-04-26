@@ -12,6 +12,45 @@ Notes
 
 Project built in Android Studio. You should just be able to open the project from there. 
 
+Use
+---
+
+### Basics
+
+All you really have to do to get started is select your media player from the menu, then hit the red start button to get started. You can opt to start the player with the overlay, in case it hasn't started already.
+
+If your player isn't shown, the "Default Fallback" option is usually sufficient - if not, see below on how to add your own, or alternatively, open an issue.
+
+### Customizing
+
+You can set the skin, the colour (if the skin allows for it), the opacity (transparency) of the overlay on the screen, and set if it should display horizontally or vertically, for skins which allow it.
+
+Want to create a skin? See below for more information.
+
+### The Overlay
+
+The overlay can be moved to either side of the screen by long pressing, then dragging it to either side of the screen. When holding it over a droppable area, it should be lit up. You can also move vertically along these areas to reposition the overlay to your liking.
+
+There is also an "x" icon that shows. Simply drag the overlay onto this icon to stop it. Alternatively, you can press the red start button again in the menu.
+
+### Automation
+
+Media Button Overlay comes with a few automation features built in to start and stop the overlay via Intents, which can be used from your own applications or other methods.
+
+To start the overlay (using the settings previously selected):
+
+```
+com.mikekorcha.mediabuttonoverlay.START
+```
+
+To stop the overlay:
+
+```
+com.mikekorcha.mediabuttonoverlay.STOP
+```
+
+Additionally, this app has built-in support for Tasker and Locale, so if you use either of these automation apps you don't need to do anything else.
+
 Contributing
 ------------
 
