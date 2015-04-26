@@ -33,6 +33,8 @@ The overlay can be moved to either side of the screen by long pressing, then dra
 
 There is also an "x" icon that shows. Simply drag the overlay onto this icon to stop it. Alternatively, you can press the red start button again in the menu.
 
+Note: If the overlay drop view (for lack of a better name) gets stuck, you can tap in the same locations that you would be able to drop to get the same functionality.
+
 ### Automation
 
 Media Button Overlay comes with a few automation features built in to start and stop the overlay via Intents, which can be used from your own applications or other methods.
