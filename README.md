@@ -10,7 +10,7 @@ Copyright © Mike Korcha 2013-2015
 Notes
 -----
 
-Project built in Android Studio. You should just be able to open the project from there. 
+Project built in Android Studio. First you should run the task gitClone (using gradlew) to ensure that you pull in the other projects this one depends on. Afterwards, you should just be able to build and run the project as usual.
 
 Use
 ---

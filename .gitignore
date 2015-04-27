@@ -21,3 +21,6 @@
 .DS_Store
 Thumbs.db
 .Trashes
+
+# Github repos for non-maven projects
+github/

@@ -1,3 +1,11 @@
+import org.ajoberstar.grgit.Grgit
+import org.ajoberstar.grgit.operation.ResetOp
+
+def githubDir   = 'github'
+// Form of: directory, repo URI, commit hash to get, project directory in repo (if needed)
+def githubRepos = [['colorPickerPreference', 'git@github.com:attenzione/android-ColorPickerPreference.git', 'ba6d45b9aa', 'ColorPickerPreference'],
+                   ['sliderPreference'     , 'git@github.com:jayschwa/AndroidSliderPreference.git',         '3f6163c01d']]
+
 def packageId = 'com.mikekorcha.mediabuttonoverlay'
 
 apply plugin: 'com.android.application'
@@ -5,6 +13,10 @@ apply plugin: 'com.android.application'
 buildscript {
     repositories {
         mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.1.0'
     }
 }
 
@@ -16,8 +28,8 @@ android {
         applicationId packageId
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 7
-        versionName "2.0.3"
+        versionCode 8
+        versionName "2.0.4"
     }
 
     buildTypes {
@@ -48,6 +60,26 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.4.0'
     compile 'at.wada811:android-material-design-colors:1.1.0'
 
-    compile project(':sliderPreference')
-    compile project(':colorPickerPreference')
+    if((new File(githubDir)).isDirectory()) {
+        githubRepos.each { repoDef ->
+            compile project(":$githubDir:${repoDef[0]}" + (repoDef.size() > 3 ? ":${repoDef[3]}" : ''))
+        }
+    }
+}
+
+task gitClone {
+    def gitDir = new File(githubDir)
+
+    if(!gitDir.isDirectory()) {
+        gitDir.mkdir()
+    }
+
+    githubRepos.each { repoDef ->
+        def repoDir = githubDir + '/' + repoDef[0]
+
+        if (!(new File(repoDir).exists())) {
+            def repo = Grgit.clone(dir: repoDir, uri: repoDef[1])
+            repo.reset(commit: repoDef[2], mode: ResetOp.Mode.HARD)
+        }
+    }
 }

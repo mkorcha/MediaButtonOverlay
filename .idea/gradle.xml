@@ -9,8 +9,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/colorPickerPreference" />
-            <option value="$PROJECT_DIR$/sliderPreference" />
+            <option value="$PROJECT_DIR$/github" />
+            <option value="$PROJECT_DIR$/github/colorPickerPreference" />
+            <option value="$PROJECT_DIR$/github/colorPickerPreference/ColorPickerPreference" />
+            <option value="$PROJECT_DIR$/github/sliderPreference" />
           </set>
         </option>
       </GradleProjectSettings>

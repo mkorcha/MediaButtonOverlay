@@ -1,3 +1,12 @@
+def githubDir   = 'github'
+def githubRepos = [['colorPickerPreference', 'git@github.com:attenzione/android-ColorPickerPreference.git', 'ba6d45b9aa', 'ColorPickerPreference'],
+                   ['sliderPreference'     , 'git@github.com:jayschwa/AndroidSliderPreference.git',         '3f6163c01d']]
+
 include ':app'
-include ':sliderPreference'
-include ':colorPickerPreference'
+
+if((new File(githubDir)).isDirectory()) {
+    githubRepos.each { repoDef ->
+        include ":$githubDir:${repoDef[0]}" + (repoDef.size() > 3 ? ":${repoDef[3]}" : '')
+    }
+}
+
