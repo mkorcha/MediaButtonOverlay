@@ -76,8 +76,4 @@ public abstract class MediaPlayer {
         }
     }
 
-    public interface OnPlayStatusChange {
-        public void onChange(int status);
-    }
-
 }

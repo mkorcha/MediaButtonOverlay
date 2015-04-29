@@ -2,8 +2,6 @@ package com.mikekorcha.mediabuttonoverlay.services;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,7 +67,7 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
         mediaOverlay.setOnClickListeners(this);
 
         overlayDropView = new OverlayDropView(this);
-        overlayDropView.setVisibility(View.GONE);
+        overlayDropView.setVisibility(View.INVISIBLE);
 
         windowManager.addView(overlayDropView, new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -187,11 +185,7 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         overlayDropView.setVisibility(View.VISIBLE);
 
-        ClipData dragData = new ClipData(mediaOverlay.toString(), new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN}, new ClipData.Item(mediaOverlay.toString()));
-
-        View.DragShadowBuilder shadow = new View.DragShadowBuilder(mediaOverlay);
-
-        mediaOverlay.startDrag(dragData, shadow, null, 0);
+        mediaOverlay.startDrag(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
     }
 
     private void toastyError(String message, Exception e) {

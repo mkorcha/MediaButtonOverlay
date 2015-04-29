@@ -29,15 +29,15 @@ Want to create a skin? See below for more information.
 
 ### The Overlay
 
-The overlay can be moved to either side of the screen by long pressing, then dragging it to either side of the screen. When holding it over a droppable area, it should be lit up. You can also move vertically along these areas to reposition the overlay to your liking.
+The overlay can be moved to either side of the screen by long pressing, then dragging it to either side of the screen. You can also move it vertically to reposition to your liking.
 
 There is also an "x" icon that shows. Simply drag the overlay onto this icon to stop it. Alternatively, you can press the red start button again in the menu.
 
-Note: If the overlay drop view (for lack of a better name) gets stuck, you can tap in the same locations that you would be able to drop to get the same functionality.
+Note: If the overlay drop view (for lack of a better name) gets stuck, you can press the "x" icon to keep the overlay running and close the drop view, or long-press the  "x" icon to stop the overlay itself.
 
 ### Automation
 
-Media Button Overlay comes with a few automation features built in to start and stop the overlay via Intents, which can be used from your own applications or other methods.
+Media Button Overlay comes with a couple of automation features built in to start and stop the overlay via Intents, which can be used from your own applications or other methods.
 
 To start the overlay (using the settings previously selected):
 
