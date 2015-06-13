@@ -56,4 +56,12 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Toggle">
+
+        <Preference
+            android:title="@string/action_start"
+            android:key="start" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

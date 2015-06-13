@@ -11,18 +11,4 @@
         android:layout_height="match_parent"
         android:id="@+id/content" />
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        app:fab_icon="@drawable/ic_start"
-        app:fab_colorNormal="@color/accent"
-        app:fab_colorPressed="@color/accentLight"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="@dimen/fab_offset_horizontal"
-        android:id="@+id/btnStart"
-        android:layout_alignParentTop="false"
-        android:layout_marginBottom="@dimen/fab_offset_vertical" />
-
 </RelativeLayout>

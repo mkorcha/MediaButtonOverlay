@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,13 +68,6 @@ public class MainActivity extends ActionBarActivity {
         that = this;
 
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
-
-        findViewById(R.id.btnStart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onStartClick();
-            }
-        });
     }
 
     @Override
@@ -119,7 +114,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void onStartClick() {
+    public void startOverlay() {
         if(!sharedPrefs.getBoolean("started", false)) {
             startService(new Intent(getApplicationContext(), OverlayService.class));
 
@@ -152,12 +147,20 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
+        @Override
+        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+            if(preference.getKey().equals("start")) {
+                that.startOverlay();
+            }
+
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
+        }
     }
 
     public static class StartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            that.onStartClick();
+            that.startOverlay();
         }
     }
 }
