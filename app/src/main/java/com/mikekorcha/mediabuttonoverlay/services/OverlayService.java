@@ -114,10 +114,20 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
             mediaPlayer = (MediaPlayer) player.getConstructor(Context.class).newInstance(this);
         }
-        catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e) {
+        // Catching individually because of API changes
+        catch (ClassNotFoundException e) {
             toastyError("Media player not properly implemented", e);
         }
-        catch (InstantiationException | InvocationTargetException e) {
+        catch(IllegalAccessException e) {
+            toastyError("Media player not properly implemented", e);
+        }
+        catch(NoSuchMethodException e) {
+            toastyError("Media player not properly implemented", e);
+        }
+        catch (InstantiationException e) {
+            toastyError("Unable to instantiate controls for media player", e);
+        }
+        catch(InvocationTargetException e) {
             toastyError("Unable to instantiate controls for media player", e);
         }
     }

@@ -159,10 +159,10 @@ public class MediaOverlayView extends LinearLayout {
     }
 
     public interface OnMediaButtonClickListeners {
-        public void onPlayPauseClick();
-        public void onPreviousClick();
-        public void onNextClick();
+        void onPlayPauseClick();
+        void onPreviousClick();
+        void onNextClick();
 
-        public void onLongClick();
+        void onLongClick();
     }
 }
