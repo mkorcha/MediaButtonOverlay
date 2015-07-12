@@ -28,13 +28,13 @@ android {
         applicationId packageId
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 8
-        versionName "2.0.4"
+        versionCode 9
+        versionName "2.1.0"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -55,7 +55,7 @@ dependencies {
 
     compile 'com.twofortyfouram:locale-api:1.0@aar'
 
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
 
     compile 'com.getbase:floatingactionbutton:1.4.0'
     compile 'at.wada811:android-material-design-colors:1.1.0'

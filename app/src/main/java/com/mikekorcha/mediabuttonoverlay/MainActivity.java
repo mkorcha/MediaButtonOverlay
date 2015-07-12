@@ -25,8 +25,6 @@ import com.mikekorcha.mediabuttonoverlay.views.MediaOverlayView;
 
 public class MainActivity extends ActionBarActivity {
 
-    private static MainActivity that;
-
     protected SharedPreferences sharedPrefs;
 
     @Override
@@ -68,7 +66,9 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        that = this;
+        if(sharedPrefs.getBoolean("notification", false)) {
+            startNotification(getApplicationContext());
+        }
 
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
     }
@@ -117,14 +117,16 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void toggleOverlay() {
+    public static void toggleOverlay(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         if(!sharedPrefs.getBoolean("started", false)) {
-            startService(new Intent(getApplicationContext(), OverlayService.class));
+            context.startService(new Intent(context, OverlayService.class));
 
             sharedPrefs.edit().putBoolean("started", true).apply();
         }
         else {
-            sendBroadcast(new Intent(getPackageName() + ".STOP"));
+            context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
 
             sharedPrefs.edit().putBoolean("started", false).apply();
         }
@@ -172,14 +174,14 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
             if(preference.getKey().equals("start")) {
-                that.toggleOverlay();
+                toggleOverlay(getActivity());
             }
             else if(preference.getKey().equals("notification")) {
                 if(preferenceScreen.getSharedPreferences().getBoolean(preference.getKey(), false)) {
-                    startNotification(that);
+                    startNotification(getActivity());
                 }
                 else {
-                    ((NotificationManager) that.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
+                    ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
                 }
             }
 
@@ -190,7 +192,7 @@ public class MainActivity extends ActionBarActivity {
     public static class StartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            that.toggleOverlay();
+            toggleOverlay(context);
         }
     }
 
