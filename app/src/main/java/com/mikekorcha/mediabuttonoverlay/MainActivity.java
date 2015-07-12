@@ -117,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startOverlay() {
+    public void toggleOverlay() {
         if(!sharedPrefs.getBoolean("started", false)) {
             startService(new Intent(getApplicationContext(), OverlayService.class));
 
@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
             if(preference.getKey().equals("start")) {
-                that.startOverlay();
+                that.toggleOverlay();
             }
             else if(preference.getKey().equals("notification")) {
                 if(preferenceScreen.getSharedPreferences().getBoolean(preference.getKey(), false)) {
@@ -190,7 +190,7 @@ public class MainActivity extends ActionBarActivity {
     public static class StartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            that.startOverlay();
+            that.toggleOverlay();
         }
     }
 
