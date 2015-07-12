@@ -70,6 +70,12 @@ public class MainActivity extends ActionBarActivity {
             startNotification(getApplicationContext());
         }
 
+        if(!sharedPrefs.getBoolean("started", false)) {
+            startService(new Intent(this, OverlayService.class));
+
+            sharedPrefs.edit().putBoolean("started", true).apply();
+        }
+
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
     }
 
