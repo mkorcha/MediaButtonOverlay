@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.mikekorcha.mediabuttonoverlay.MainActivity;
 import com.mikekorcha.mediabuttonoverlay.R;
 
 public class OverlayDropView extends FrameLayout {
@@ -16,6 +17,7 @@ public class OverlayDropView extends FrameLayout {
     private SharedPreferences sharedPrefs;
 
     private ImageView btnClose;
+    private ImageView btnApp;
 
     public OverlayDropView(final Context context) {
         super(context);
@@ -25,37 +27,47 @@ public class OverlayDropView extends FrameLayout {
         inflate(context, R.layout.layout_movement, this);
 
         btnClose = (ImageView) findViewById(R.id.btnClose);
+        btnApp   = (ImageView) findViewById(R.id.btnApp);
 
         btnClose.setOnLongClickListener(new OnLongClickListener() {
-
             @Override
             public boolean onLongClick(View v) {
                 context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
 
                 return false;
             }
-
         });
 
-        btnClose.setOnClickListener(new OnClickListener() {
+        btnApp.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                openActivity();
 
+                return false;
+            }
+        });
+
+        OnClickListener buttonListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 setVisibility(INVISIBLE);
             }
+        };
 
-        });
+        btnClose.setOnClickListener(buttonListener);
+        btnApp.setOnClickListener(buttonListener);
 
         setOnDragListener(new OnDragListener() {
-
             @Override
             public boolean onDrag(View v, DragEvent event) {
-                if(event.getAction() == DragEvent.ACTION_DROP) {
+                if (event.getAction() == DragEvent.ACTION_DROP) {
                     // Check if the overlay is dragged over the circle, and stop it if so
-                    if(event.getX() >= btnClose.getLeft() && event.getX() <= btnClose.getRight() &&
-                            event.getY() >= btnClose.getTop()  && event.getY() <= btnClose.getBottom()) {
-
+                    if (isOverButton(btnClose, event)) {
                         context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
+                    }
+                    // Check if overlay is dragged over the icon to open the app, and open it if so
+                    else if (isOverButton(btnApp, event)) {
+                        openActivity();
                     }
                     else {
                         sharedPrefs.edit()
@@ -72,6 +84,19 @@ public class OverlayDropView extends FrameLayout {
             }
 
         });
+    }
+
+    private void openActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+        getContext().startActivity(intent);
+    }
+
+    private boolean isOverButton(View view, DragEvent event) {
+        return event.getX() >= view.getLeft() && event.getX() <= view.getRight() &&
+                event.getY() >= view.getTop()  && event.getY() <= view.getBottom();
     }
 
     // Calculates a Y-coordinate on-screen to put the overlay

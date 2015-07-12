@@ -211,7 +211,6 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
     }
 
     public static class RefreshReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if(that != null) {
@@ -222,7 +221,6 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
     }
 
     public static class StopReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if(that != null) {

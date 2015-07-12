@@ -10,7 +10,6 @@ import com.mikekorcha.mediabuttonoverlay.MediaPlayer;
 public class Spotify extends MediaPlayer {
 
     private static BroadcastReceiver statusReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getBooleanExtra("playing", false)) {
@@ -21,7 +20,6 @@ public class Spotify extends MediaPlayer {
 
             playStatus = PAUSED;
         }
-
     };
 
     private static IntentFilter statusFilter = new IntentFilter("com.spotify.music.playbackstatechanged");
