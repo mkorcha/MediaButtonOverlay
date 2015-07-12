@@ -1,6 +1,9 @@
 package com.mikekorcha.mediabuttonoverlay;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,10 +15,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.mikekorcha.mediabuttonoverlay.services.OverlayService;
 import com.mikekorcha.mediabuttonoverlay.views.MediaOverlayView;
@@ -127,6 +130,25 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private static void startNotification(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent i = new Intent(context.getPackageName() + ".START");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getResources().getString(R.string.app_name))
+                .setContentText(context.getResources().getString(R.string.notification_info))
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+
+        notificationManager.notify(1, notification);
+    }
+
     // Now that addPreferencesFromResource is deprecated I have to do this, which does the same
     // thing with many more lines of code! x.x
     public static class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -152,6 +174,14 @@ public class MainActivity extends ActionBarActivity {
             if(preference.getKey().equals("start")) {
                 that.startOverlay();
             }
+            else if(preference.getKey().equals("notification")) {
+                if(preferenceScreen.getSharedPreferences().getBoolean(preference.getKey(), false)) {
+                    startNotification(that);
+                }
+                else {
+                    ((NotificationManager) that.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
+                }
+            }
 
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
@@ -161,6 +191,15 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             that.startOverlay();
+        }
+    }
+
+    public static class BootReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notification", false)) {
+                startNotification(context);
+            }
         }
     }
 }

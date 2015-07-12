@@ -4,7 +4,7 @@
 
     <color name="primary">@color/md_deep_purple_500</color>
     <color name="primaryDark">@color/md_deep_purple_700</color>
-    <color name="accent">@color/md_amber_500</color>
-    <color name="accentLight">@color/md_amber_200</color>
+    <color name="accent">@color/md_grey_500</color>
+    <color name="accentLight">@color/md_grey_200</color>
 
 </resources>

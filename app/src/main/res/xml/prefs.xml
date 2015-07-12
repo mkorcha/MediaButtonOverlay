@@ -59,8 +59,14 @@
     <PreferenceCategory android:title="Toggle">
 
         <Preference
-            android:title="@string/action_start"
+            android:title="@string/action_toggle"
             android:key="start" />
+
+        <CheckBoxPreference
+            android:title="@string/pref_notification"
+            android:key="notification"
+            android:summary="@string/pref_notification_description"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 

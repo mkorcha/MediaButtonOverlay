@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mikekorcha.mediabuttonoverlay" >
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -38,7 +39,7 @@
         </receiver>
 
         <receiver
-            android:name="com.mikekorcha.mediabuttonoverlay.MainActivity$StartReceiver"
+            android:name=".MainActivity$StartReceiver"
             android:enabled="true"
             android:exported="false">
 
@@ -54,6 +55,17 @@
 
             <intent-filter>
                 <action android:name="com.mikekorcha.mediabuttonoverlay.STOP" />
+            </intent-filter>
+        </receiver>
+
+        <!-- For when things need to be done on boot -->
+        <receiver
+            android:name=".MainActivity$BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
