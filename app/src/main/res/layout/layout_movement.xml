@@ -5,8 +5,8 @@
     android:background="@drawable/droppable_background">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:id="@+id/btnClose"
         android:layout_gravity="center_horizontal|top"
         android:src="@drawable/ic_close"
