@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -195,7 +196,13 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         overlayDropView.setVisibility(View.VISIBLE);
 
-        mediaOverlay.startDrag(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
+        if(Build.VERSION.SDK_INT < 24) {
+            // noinspection deprecation
+            mediaOverlay.startDrag(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
+        }
+        else {
+            mediaOverlay.startDragAndDrop(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
+        }
     }
 
     private void toastyError(String message, Exception e) {

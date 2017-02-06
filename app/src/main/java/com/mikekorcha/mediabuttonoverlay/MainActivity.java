@@ -1,5 +1,6 @@
 package com.mikekorcha.mediabuttonoverlay;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,22 +11,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mikekorcha.mediabuttonoverlay.services.OverlayService;
 import com.mikekorcha.mediabuttonoverlay.views.MediaOverlayView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     protected SharedPreferences sharedPrefs;
+
+    private static int REQUEST_CODE = 24;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +76,6 @@ public class MainActivity extends ActionBarActivity {
             startNotification(getApplicationContext());
         }
 
-        if(!sharedPrefs.getBoolean("started", false)) {
-            startService(new Intent(this, OverlayService.class));
-
-            sharedPrefs.edit().putBoolean("started", true).apply();
-        }
-
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
     }
 
@@ -91,8 +91,18 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_rate) {
+            int intent_flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+
+            if(Build.VERSION.SDK_INT < 21) {
+                //noinspection deprecation
+                intent_flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
+            }
+            else {
+                intent_flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+            }
+
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName()));
-            i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            i.addFlags(intent_flags);
 
             startActivity(i);
 
@@ -123,13 +133,33 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE) {
+            this.startService(new Intent(this, OverlayService.class));
+
+            sharedPrefs.edit().putBoolean("started", true).apply();
+        }
+        else {
+            Toast.makeText(this, "To use the overlay, please allow the app to draw on the screen.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public static void toggleOverlay(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(!sharedPrefs.getBoolean("started", false)) {
-            context.startService(new Intent(context, OverlayService.class));
+            if(Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(context)) {
+                Intent i = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + context.getPackageName()));
+                ((Activity) context).startActivityForResult(i, REQUEST_CODE);
+            }
+            else {
+                context.startService(new Intent(context, OverlayService.class));
 
-            sharedPrefs.edit().putBoolean("started", true).apply();
+                sharedPrefs.edit().putBoolean("started", true).apply();
+            }
         }
         else {
             context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
