@@ -49,22 +49,29 @@ public abstract class MediaPlayer {
 
     public void launchPlayer() {
         if(playerPackage != null) {
+            PackageManager pm = context.getPackageManager();
+
             try {
-                PackageManager pm = context.getPackageManager();
-
                 // This will throw an exception if the package isn't installed, acting as a check
-                pm.getPackageInfo(playerPackage, PackageManager.GET_ACTIVITIES);
+                // for apps not installed
+                if(!pm.getApplicationInfo(playerPackage, 0).enabled) {
+                    Toast.makeText(context, "Player is disabled.", Toast.LENGTH_SHORT).show();
 
-                Intent i = pm.getLaunchIntentForPackage(playerPackage);
-                i.addCategory(Intent.CATEGORY_LAUNCHER);
-
-                context.startActivity(i);
+                    return;
+                }
             }
             catch(PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
 
                 Toast.makeText(context, "Player not installed.", Toast.LENGTH_SHORT).show();
+
+                return;
             }
+
+            Intent i = pm.getLaunchIntentForPackage(playerPackage);
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+
+            context.startActivity(i);
         }
     }
 
