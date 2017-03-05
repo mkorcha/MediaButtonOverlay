@@ -2,13 +2,16 @@ package com.mikekorcha.mediabuttonoverlay.views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.mikekorcha.mediabuttonoverlay.R;
+import com.mikekorcha.mediabuttonoverlay.listeners.OnMediaButtonTouchListener;
 
 import java.util.ArrayList;
 
@@ -26,14 +29,18 @@ public class MediaOverlayView extends LinearLayout {
 
     private OnMediaButtonClickListeners onMediaButtonClickListeners;
 
+    private WindowManager.LayoutParams layoutParams;
+
     public MediaOverlayView(Context context) {
         super(context);
     }
 
-    public MediaOverlayView(Context context, int layout) {
+    public MediaOverlayView(Context context, int layout, WindowManager.LayoutParams params) {
         super(context);
 
         setLayout(layout);
+
+        this.layoutParams = params;
     }
 
     public void setOpacity(float opacity) {
@@ -91,41 +98,56 @@ public class MediaOverlayView extends LinearLayout {
     public void setOnClickListeners(OnMediaButtonClickListeners listeners) {
         onMediaButtonClickListeners = listeners;
 
-        btnPrevious.setOnClickListener(new OnClickListener() {
+        btnPrevious.setOnTouchListener(new OnMediaButtonTouchListener(layoutParams) {
             @Override
-            public void onClick(View v) {
+            public void onClick() {
                 onMediaButtonClickListeners.onPreviousClick();
             }
+
+            @Override
+            public void onDrag(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrag(view, motionEvent, screenX, screenY);
+            }
+
+            @Override
+            public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrop(view, motionEvent, screenX, screenY);
+            }
         });
 
-        btnPlayPause.setOnClickListener(new OnClickListener() {
+        btnPlayPause.setOnTouchListener(new OnMediaButtonTouchListener(layoutParams) {
             @Override
-            public void onClick(View v) {
+            public void onClick() {
                 onMediaButtonClickListeners.onPlayPauseClick();
             }
+
+            @Override
+            public void onDrag(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrag(view, motionEvent, screenX, screenY);
+            }
+
+            @Override
+            public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrop(view, motionEvent, screenX, screenY);
+            }
         });
 
-        btnNext.setOnClickListener(new OnClickListener() {
+        btnNext.setOnTouchListener(new OnMediaButtonTouchListener(layoutParams) {
             @Override
-            public void onClick(View v) {
+            public void onClick() {
                 onMediaButtonClickListeners.onNextClick();
             }
-        });
 
-
-        OnLongClickListener onLongClickListener = new OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                onMediaButtonClickListeners.onLongClick();
-
-                return true;
+            public void onDrag(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrag(view, motionEvent, screenX, screenY);
             }
-        };
 
-        buttonLayout.setOnLongClickListener(onLongClickListener);
-        btnPrevious.setOnLongClickListener(onLongClickListener);
-        btnPlayPause.setOnLongClickListener(onLongClickListener);
-        btnNext.setOnLongClickListener(onLongClickListener);
+            @Override
+            public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
+                onMediaButtonClickListeners.onDrop(view, motionEvent, screenX, screenY);
+            }
+        });
     }
 
     private static int darken(int colour) {
@@ -163,6 +185,7 @@ public class MediaOverlayView extends LinearLayout {
         void onPreviousClick();
         void onNextClick();
 
-        void onLongClick();
+        void onDrag(View view, MotionEvent motionEvent, int screenX, int screenY);
+        void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY);
     }
 }

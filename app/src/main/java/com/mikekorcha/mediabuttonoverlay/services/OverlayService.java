@@ -6,11 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -45,6 +46,8 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
     private MediaOverlayView mediaOverlay;
     private OverlayDropView overlayDropView;
 
+    private View btnClose, btnApp;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -64,11 +67,14 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         setMediaPlayer();
 
-        mediaOverlay = new MediaOverlayView(this, getLayoutResource());
+        mediaOverlay = new MediaOverlayView(this, getLayoutResource(), layoutParams);
         mediaOverlay.setOnClickListeners(this);
 
         overlayDropView = new OverlayDropView(this);
         overlayDropView.setVisibility(View.INVISIBLE);
+
+        btnApp = overlayDropView.findViewById(R.id.btnApp);
+        btnClose = overlayDropView.findViewById(R.id.btnClose);
 
         windowManager.addView(overlayDropView, new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -191,18 +197,38 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
     }
 
     @Override
-    public void onLongClick() {
-        handleVibration();
+    public void onDrag(View view, MotionEvent motionEvent, int screenX, int screenY) {
+        if(overlayDropView.getVisibility() != View.VISIBLE) {
+            overlayDropView.setVisibility(View.VISIBLE);
+        }
 
-        overlayDropView.setVisibility(View.VISIBLE);
+        mediaOverlay.setOpacity((float) (sharedPrefs.getFloat("opacity", 0.5f) * 0.8));
+    }
 
-        if(Build.VERSION.SDK_INT < 24) {
-            // noinspection deprecation
-            mediaOverlay.startDrag(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
+    @Override
+    public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
+        mediaOverlay.setOpacity(sharedPrefs.getFloat("opacity", 0.5f));
+
+        if (OverlayDropView.isOverButton(btnClose, motionEvent)) {
+            handleVibration();
+
+            sendBroadcast(new Intent(getPackageName() + ".STOP"));
+        }
+        else if (OverlayDropView.isOverButton(btnApp, motionEvent)) {
+            handleVibration();
+
+            OverlayDropView.openActivity(this);
         }
         else {
-            mediaOverlay.startDragAndDrop(null, new View.DragShadowBuilder(mediaOverlay), null, 0);
+            DisplayMetrics dm = getResources().getDisplayMetrics();
+            sharedPrefs.edit()
+                    .putInt("location", OverlayDropView.calcSide(dm.widthPixels, motionEvent.getRawX()))
+                    .putInt("locY", screenY).apply();
+
+            sendBroadcast(new Intent(getPackageName() + ".REFRESH"));
         }
+
+        overlayDropView.setVisibility(View.INVISIBLE);
     }
 
     private void toastyError(String message, Exception e) {
@@ -236,6 +262,5 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
                 that.stopSelf();
             }
         }
-
     }
 }
