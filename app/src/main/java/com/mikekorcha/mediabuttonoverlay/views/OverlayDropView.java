@@ -12,16 +12,13 @@ import com.mikekorcha.mediabuttonoverlay.R;
 
 public class OverlayDropView extends FrameLayout {
 
-    private ImageView btnClose;
-    private ImageView btnApp;
-
     public OverlayDropView(final Context context) {
         super(context);
 
         inflate(context, R.layout.layout_movement, this);
 
-        btnClose = (ImageView) findViewById(R.id.btnClose);
-        btnApp   = (ImageView) findViewById(R.id.btnApp);
+        ImageView btnClose = (ImageView) findViewById(R.id.btnClose);
+        ImageView btnApp   = (ImageView) findViewById(R.id.btnApp);
 
         btnClose.setOnLongClickListener(new OnLongClickListener() {
             @Override

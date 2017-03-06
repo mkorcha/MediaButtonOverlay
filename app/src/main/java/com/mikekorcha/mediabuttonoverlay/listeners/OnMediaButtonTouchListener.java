@@ -16,7 +16,7 @@ public abstract class OnMediaButtonTouchListener implements View.OnTouchListener
 
     private WindowManager.LayoutParams layoutParams;
 
-    public OnMediaButtonTouchListener(WindowManager.LayoutParams params) {
+    protected OnMediaButtonTouchListener(WindowManager.LayoutParams params) {
         this.layoutParams = params;
     }
 

@@ -6,14 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -218,7 +214,6 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
             OverlayDropView.openActivity(this);
         }
         else {
-            DisplayMetrics dm = getResources().getDisplayMetrics();
             sharedPrefs.edit()
                     .putInt("locX", screenX)
                     .putInt("locY", screenY).apply();
