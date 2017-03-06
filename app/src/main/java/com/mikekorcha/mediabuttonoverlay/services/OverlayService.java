@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -148,13 +151,7 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         mediaOverlay.setOrientation(sharedPrefs.getString("orientation", "0").equals("0") ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
 
-        if(sharedPrefs.getInt("location", MediaOverlayView.LEFT) == MediaOverlayView.LEFT) {
-            layoutParams.gravity = Gravity.LEFT;
-        }
-        else {
-            layoutParams.gravity = Gravity.RIGHT;
-        }
-
+        layoutParams.x = sharedPrefs.getInt("locX", 0);
         layoutParams.y = sharedPrefs.getInt("locY", 0);
 
         windowManager.updateViewLayout(mediaOverlay, layoutParams);
@@ -202,13 +199,14 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
             overlayDropView.setVisibility(View.VISIBLE);
         }
 
-        mediaOverlay.setOpacity((float) (sharedPrefs.getFloat("opacity", 0.5f) * 0.8));
+        layoutParams.x = screenX;
+        layoutParams.y = screenY;
+        windowManager.updateViewLayout(mediaOverlay, layoutParams);
     }
 
     @Override
     public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
-        mediaOverlay.setOpacity(sharedPrefs.getFloat("opacity", 0.5f));
-
+        Log.d("MBO", Integer.toString(screenY));
         if (OverlayDropView.isOverButton(btnClose, motionEvent)) {
             handleVibration();
 
@@ -222,7 +220,7 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
         else {
             DisplayMetrics dm = getResources().getDisplayMetrics();
             sharedPrefs.edit()
-                    .putInt("location", OverlayDropView.calcSide(dm.widthPixels, motionEvent.getRawX()))
+                    .putInt("locX", screenX)
                     .putInt("locY", screenY).apply();
 
             sendBroadcast(new Intent(getPackageName() + ".REFRESH"));

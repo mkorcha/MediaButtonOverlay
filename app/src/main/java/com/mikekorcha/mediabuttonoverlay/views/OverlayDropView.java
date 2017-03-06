@@ -74,10 +74,4 @@ public class OverlayDropView extends FrameLayout {
         }
         return result;
     }
-
-    public static int calcSide(int widthPixels, float eventX) {
-        int width = widthPixels / 2;
-
-        return eventX > width ? MediaOverlayView.RIGHT : MediaOverlayView.LEFT;
-    }
 }
