@@ -29,7 +29,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 10
-        versionName "2.1.1"
+        versionName "2.2.0"
     }
 
     buildTypes {
@@ -55,7 +55,7 @@ dependencies {
 
     compile 'com.twofortyfouram:locale-api:1.0@aar'
 
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.2.0'
 
     compile 'com.getbase:floatingactionbutton:1.4.0'
     compile 'at.wada811:android-material-design-colors:1.1.0'
