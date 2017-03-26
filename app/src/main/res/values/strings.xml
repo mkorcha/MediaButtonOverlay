@@ -19,12 +19,13 @@
 
     <string name="action_toggle">Toggle Overlay</string>
 
-    <string name="notification_info">Tap to toggle overlay</string>
+    <string name="notification_info">Tap to start overlay</string>
+    <string name="notification_running">Overlay running - tap to stop</string>
 
     <string name="about">
         This app was created to provide an easy way to change your music as you\'re doing other things, without having to fumble through your apps to find your music player.\n
         \n
-        Copyright © 2013-2015 Mike Korcha.\n
+        Copyright © 2013-2017 Mike Korcha.\n
         \n
         Credit to:\n
         • Jay Weisskopf for SliderPreference\n

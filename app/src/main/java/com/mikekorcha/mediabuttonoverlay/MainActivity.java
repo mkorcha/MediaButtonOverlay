@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE) {
-            this.startService(new Intent(this, OverlayService.class));
+            startService(this);
 
             sharedPrefs.edit().putBoolean("started", true).apply();
         }
@@ -156,35 +156,56 @@ public class MainActivity extends AppCompatActivity {
                 ((Activity) context).startActivityForResult(i, REQUEST_CODE);
             }
             else {
-                context.startService(new Intent(context, OverlayService.class));
+                startService(context);
 
                 sharedPrefs.edit().putBoolean("started", true).apply();
             }
         }
         else {
-            context.sendBroadcast(new Intent(context.getPackageName() + ".STOP"));
+            context.sendBroadcast(new Intent(context, OverlayService.StopReceiver.class));
 
             sharedPrefs.edit().putBoolean("started", false).apply();
         }
     }
 
-    private static void startNotification(Context context) {
+    public static void startService(Context context) {
+        Intent service = new Intent(context, OverlayService.class);
+        if(Build.VERSION.SDK_INT > 25) {
+            ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))
+                    .startServiceInForeground(service, 2, getForegroundNotification(context));
+        }
+        else {
+            context.startService(new Intent(context, OverlayService.class));
+        }
+    }
+
+    public static void startNotification(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent i = new Intent(context.getPackageName() + ".START");
-
+        Intent i = new Intent(context, StartReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(context.getResources().getString(R.string.app_name))
-                .setContentText(context.getResources().getString(R.string.notification_info))
-                .setContentIntent(pendingIntent)
-                .build();
-
+        Notification notification = getNotification(context, pendingIntent, R.string.notification_info);
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
 
         notificationManager.notify(1, notification);
+    }
+
+    public static Notification getForegroundNotification(Context context) {
+        Intent notificationIntent = new Intent(context, OverlayService.StopReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        return getNotification(context, pendingIntent, R.string.notification_running);
+    }
+
+    public static Notification getNotification(Context context, PendingIntent pendingIntent, int text_resource) {
+        return new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getResources().getString(R.string.app_name))
+                .setContentText(context.getResources().getString(text_resource))
+                .setContentIntent(pendingIntent)
+                .build();
     }
 
     // Now that addPreferencesFromResource is deprecated I have to do this, which does the same
@@ -203,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if(getActivity() != null) {
-                getActivity().sendBroadcast(new Intent(getActivity().getPackageName() + ".REFRESH"));
+                getActivity().sendBroadcast(new Intent(getActivity(), OverlayService.RefreshReceiver.class));
             }
         }
 

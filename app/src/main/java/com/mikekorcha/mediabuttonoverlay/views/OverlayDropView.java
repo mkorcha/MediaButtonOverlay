@@ -17,8 +17,8 @@ public class OverlayDropView extends FrameLayout {
 
         inflate(context, R.layout.layout_movement, this);
 
-        ImageView btnClose = (ImageView) findViewById(R.id.btnClose);
-        ImageView btnApp   = (ImageView) findViewById(R.id.btnApp);
+        ImageView btnClose = findViewById(R.id.btnClose);
+        ImageView btnApp   = findViewById(R.id.btnApp);
 
         btnClose.setOnLongClickListener(new OnLongClickListener() {
             @Override

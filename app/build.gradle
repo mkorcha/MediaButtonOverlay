@@ -21,13 +21,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion "android-O"
+    buildToolsVersion "26.0.0-rc1"
 
     defaultConfig {
         applicationId packageId
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion "O"
         versionCode 10
         versionName "2.2.0"
     }
@@ -55,7 +55,7 @@ dependencies {
 
     compile 'com.twofortyfouram:locale-api:1.0@aar'
 
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
 
     compile 'com.getbase:floatingactionbutton:1.4.0'
     compile 'at.wada811:android-material-design-colors:1.1.0'

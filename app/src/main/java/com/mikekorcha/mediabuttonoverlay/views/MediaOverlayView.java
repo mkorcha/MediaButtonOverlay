@@ -68,11 +68,11 @@ public class MediaOverlayView extends LinearLayout {
 
         inflate(getContext(), layout, this);
 
-        btnPrevious =  (ImageView) findViewById(R.id.btnPrevious);
-        btnPlayPause = (ImageView) findViewById(R.id.btnPlayPause);
-        btnNext = (ImageView) findViewById(R.id.btnNext);
+        btnPrevious = findViewById(R.id.btnPrevious);
+        btnPlayPause = findViewById(R.id.btnPlayPause);
+        btnNext = findViewById(R.id.btnNext);
 
-        buttonLayout = (LinearLayout) findViewById(R.id.buttonLayout);
+        buttonLayout = findViewById(R.id.buttonLayout);
 
         if(onMediaButtonClickListeners != null) {
             setOnClickListeners(onMediaButtonClickListeners);

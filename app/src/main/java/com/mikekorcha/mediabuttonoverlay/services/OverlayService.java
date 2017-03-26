@@ -1,21 +1,23 @@
 package com.mikekorcha.mediabuttonoverlay.services;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.mikekorcha.mediabuttonoverlay.MainActivity;
 import com.mikekorcha.mediabuttonoverlay.views.MediaOverlayView;
 import com.mikekorcha.mediabuttonoverlay.MediaPlayer;
 import com.mikekorcha.mediabuttonoverlay.R;
@@ -27,19 +29,16 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
     private static OverlayService that;
 
+    private static int NOTIFICATION_ID = 42;
+
     private WindowManager windowManager;
 
     private Vibrator vibrator;
 
     private SharedPreferences sharedPrefs;
 
-    private WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-    );
+    private WindowManager.LayoutParams layoutParams =
+            getParams(WindowManager.LayoutParams.WRAP_CONTENT);
 
     private MediaPlayer mediaPlayer;
     private MediaOverlayView mediaOverlay;
@@ -75,20 +74,23 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
         btnApp = overlayDropView.findViewById(R.id.btnApp);
         btnClose = overlayDropView.findViewById(R.id.btnClose);
 
-        windowManager.addView(overlayDropView, new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT
-        ));
-
+        windowManager.addView(overlayDropView, getParams(WindowManager.LayoutParams.MATCH_PARENT));
         windowManager.addView(mediaOverlay, layoutParams);
 
         refresh();
 
         if(sharedPrefs.getBoolean("startapp", false)) {
             mediaPlayer.launchPlayer();
+        }
+
+        // set up notification for the foreground
+        if(sharedPrefs.getBoolean("notification", false)) {
+            // I don't feel the need to double-up the notification
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
+        }
+
+        if(Build.VERSION.SDK_INT < 26) {
+            startForeground(NOTIFICATION_ID, MainActivity.getForegroundNotification(this));
         }
     }
 
@@ -106,7 +108,13 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
         that = null;
 
+        if(sharedPrefs.getBoolean("notification", false)) {
+            // I don't feel the need to double-up the notification
+            MainActivity.startNotification(this);
+        }
+
         super.onDestroy();
+        stopForeground(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -202,11 +210,10 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
     @Override
     public void onDrop(View view, MotionEvent motionEvent, int screenX, int screenY) {
-        Log.d("MBO", Integer.toString(screenY));
         if (OverlayDropView.isOverButton(btnClose, motionEvent)) {
             handleVibration();
 
-            sendBroadcast(new Intent(getPackageName() + ".STOP"));
+            sendBroadcast(new Intent(getBaseContext(), StopReceiver.class));
         }
         else if (OverlayDropView.isOverButton(btnApp, motionEvent)) {
             handleVibration();
@@ -218,7 +225,7 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
                     .putInt("locX", screenX)
                     .putInt("locY", screenY).apply();
 
-            sendBroadcast(new Intent(getPackageName() + ".REFRESH"));
+            sendBroadcast(new Intent(getBaseContext(), RefreshReceiver.class));
         }
 
         overlayDropView.setVisibility(View.INVISIBLE);
@@ -234,6 +241,16 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
 
     private int getLayoutResource() {
         return getResources().getIdentifier(sharedPrefs.getString("skin", "skin_material"), "layout", getPackageName());
+    }
+
+    private static WindowManager.LayoutParams getParams(int sizing) {
+        return new WindowManager.LayoutParams(
+                sizing, sizing,
+                Build.VERSION.SDK_INT > 25 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                        WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT
+        );
     }
 
     public static class RefreshReceiver extends BroadcastReceiver {
