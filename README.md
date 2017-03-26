@@ -5,7 +5,7 @@ An Android application that provides a persisting overlay of media buttons for q
 
 App can be found on [Google Play](https://play.google.com/store/apps/details?id=com.mikekorcha.mediabuttonoverlay)
 
-Copyright © Mike Korcha 2013-2015
+Copyright © Mike Korcha 2013-2017
 
 Notes
 -----
@@ -67,7 +67,7 @@ To allow for the button to change properly with play status, when calling the pa
 To allow the player to start with the overlay, make sure to set `playerPackage` to the package ID of the player you want to start.
 
 ### Skin
- 
+
 Create an XML layout file. Make sure the buttons have the ID of `btnPrevious`, `btnPlayPause`, and `btnNext`, for those you want to implement. Then, add the skin name to `skins_names` and the layout resource name to `skins_resources` in the `skins.xml` value file.
 
 To allow the orientation of the layout to change (assuming a `LinearLayout`), make sure the enclosing layout has the ID `buttonLayout`.
