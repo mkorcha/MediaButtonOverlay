@@ -14,8 +14,7 @@
 
 # IDE files
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+/.idea
 
 # OS specific files
 .DS_Store
