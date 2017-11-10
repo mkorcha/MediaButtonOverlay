@@ -1,5 +1,6 @@
 package com.mikekorcha.mediabuttonoverlay.listeners;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ public abstract class OnMediaButtonTouchListener implements View.OnTouchListener
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        int[] coords = getCoords(motionEvent);
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialX = layoutParams.x;
@@ -30,20 +32,18 @@ public abstract class OnMediaButtonTouchListener implements View.OnTouchListener
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-                if(Math.abs(motionEvent.getX()) < view.getWidth() ||
-                        Math.abs(motionEvent.getY()) < view.getHeight()) {
+                if(coords[0] < initialX || coords[0] > initialX + view.getWidth()
+                        || coords[1] < initialY || coords[1] > initialY + view.getHeight()) {
                     isMoving = true;
 
-                    int[] coords = getCoords(motionEvent);
                     onDrag(view, motionEvent, coords[0], coords[1]);
                 }
                 return true;
-
+    
             case MotionEvent.ACTION_UP:
                 if(isMoving) {
                     isMoving = false;
 
-                    int[] coords = getCoords(motionEvent);
                     onDrop(view, motionEvent, coords[0], coords[1]);
                 }
                 else {
