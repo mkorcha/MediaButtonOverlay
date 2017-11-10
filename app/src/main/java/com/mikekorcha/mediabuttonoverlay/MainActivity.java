@@ -3,6 +3,7 @@ package com.mikekorcha.mediabuttonoverlay;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -74,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPrefs.getBoolean("notification", false)) {
             startNotification(getApplicationContext());
+        }
+
+        if(Build.VERSION.SDK_INT >= 26) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(getPackageName(), "Media Button Overlay", NotificationManager.IMPORTANCE_LOW);
+            channel.setDescription("Persisting notifications for Media Button Overlay");
+            channel.enableLights(false);
+            channel.enableVibration(false);
+            manager.createNotificationChannel(channel);
         }
 
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefFragment()).commit();
@@ -171,11 +181,10 @@ public class MainActivity extends AppCompatActivity {
     public static void startService(Context context) {
         Intent service = new Intent(context, OverlayService.class);
         if(Build.VERSION.SDK_INT > 25) {
-            ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))
-                    .startServiceInForeground(service, 2, getForegroundNotification(context));
+            context.startForegroundService(service);
         }
         else {
-            context.startService(new Intent(context, OverlayService.class));
+            context.startService(service);
         }
     }
 
@@ -200,12 +209,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static Notification getNotification(Context context, PendingIntent pendingIntent, int text_resource) {
-        return new NotificationCompat.Builder(context)
+        Notification.Builder builder = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getResources().getString(R.string.app_name))
                 .setContentText(context.getResources().getString(text_resource))
                 .setContentIntent(pendingIntent)
-                .build();
+                .setAutoCancel(true)
+                .setOngoing(true);
+        if(Build.VERSION.SDK_INT < 26) {
+            builder.setPriority(Notification.PRIORITY_LOW);
+        }
+        else {
+            builder.setChannelId(context.getPackageName());
+        }
+        if(Build.VERSION.SDK_INT < 16) {
+            return builder.getNotification();
+        }
+        return builder.build();
     }
 
     // Now that addPreferencesFromResource is deprecated I have to do this, which does the same

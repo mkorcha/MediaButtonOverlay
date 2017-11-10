@@ -88,10 +88,12 @@ public class OverlayService extends Service implements MediaOverlayView.OnMediaB
             // I don't feel the need to double-up the notification
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
         }
+    }
 
-        if(Build.VERSION.SDK_INT < 26) {
-            startForeground(NOTIFICATION_ID, MainActivity.getForegroundNotification(this));
-        }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(NOTIFICATION_ID, MainActivity.getForegroundNotification(this));
+        return START_NOT_STICKY;
     }
 
     @Override
