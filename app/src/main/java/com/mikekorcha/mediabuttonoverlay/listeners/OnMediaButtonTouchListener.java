@@ -39,7 +39,7 @@ public abstract class OnMediaButtonTouchListener implements View.OnTouchListener
                     onDrag(view, motionEvent, coords[0], coords[1]);
                 }
                 return true;
-    
+
             case MotionEvent.ACTION_UP:
                 if(isMoving) {
                     isMoving = false;
